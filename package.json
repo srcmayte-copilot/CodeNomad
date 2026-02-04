@@ -13,7 +13,8 @@
       "packages/v2-core",
       "packages/v2-server",
       "packages/v2-web",
-      "packages/v2-cli"
+      "packages/v2-cli",
+      "packages/v2-adapter-opencode"
     ]
   },
   "scripts": {
