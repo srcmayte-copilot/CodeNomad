@@ -9,7 +9,11 @@
       "packages/server",
       "packages/ui",
       "packages/electron-app",
-      "packages/tauri-app"
+      "packages/tauri-app",
+      "packages/v2-core",
+      "packages/v2-server",
+      "packages/v2-web",
+      "packages/v2-cli"
     ]
   },
   "scripts": {
