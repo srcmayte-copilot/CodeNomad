@@ -20,12 +20,17 @@
     "dev": "npm run dev --workspace @neuralnomads/codenomad-electron-app",
     "dev:electron": "npm run dev --workspace @neuralnomads/codenomad-electron-app",
     "dev:tauri": "npm run dev --workspace @codenomad/tauri-app",
+    "dev:v2": "concurrently \"npm run dev --workspace @codenomad/server\" \"npm run dev --workspace @codenomad/web\"",
+    "dev:v2:server": "npm run dev --workspace @codenomad/server",
+    "dev:v2:web": "npm run dev --workspace @codenomad/web",
     "build": "npm run build --workspace @neuralnomads/codenomad-electron-app",
     "build:tauri": "npm run build --workspace @codenomad/tauri-app",
     "build:ui": "npm run build --workspace @codenomad/ui",
+    "build:v2": "npm run build --workspace @codenomad/core && npm run build --workspace @codenomad/server && npm run build --workspace @codenomad/cli && npm run build --workspace @codenomad/web",
     "build:mac-x64": "npm run build:mac-x64 --workspace @neuralnomads/codenomad-electron-app",
     "build:binaries": "npm run build:binaries --workspace @neuralnomads/codenomad-electron-app",
     "typecheck": "npm run typecheck --workspace @codenomad/ui && npm run typecheck --workspace @neuralnomads/codenomad-electron-app",
+    "typecheck:v2": "npm run typecheck --workspace @codenomad/core && npm run typecheck --workspace @codenomad/server && npm run typecheck --workspace @codenomad/cli && npm run typecheck --workspace @codenomad/web",
     "bumpVersion": "npm version --workspaces --include-workspace-root --no-git-tag-version"
   },
   "dependencies": {
