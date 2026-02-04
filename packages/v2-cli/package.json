@@ -1,0 +1,27 @@
+{
+  "name": "@codenomad/cli",
+  "version": "2.0.0-alpha.1",
+  "description": "CodeNomad v2 CLI - Command-line interface",
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "codenomad": "./dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx watch src/index.ts",
+    "start": "node dist/index.js",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@codenomad/core": "workspace:*",
+    "@codenomad/server": "workspace:*",
+    "commander": "^12.1.0",
+    "chalk": "^5.4.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.5",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.3"
+  }
+}
