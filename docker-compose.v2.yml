@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  # CodeNomad v2 Server
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile.v2
+    container_name: codenomad-server
+    ports:
+      - "3100:3100"
+    environment:
+      - NODE_ENV=production
+      - PORT=3100
+      - HOST=0.0.0.0
+      - DB_PATH=/app/data/codenomad.db
+      - LOG_LEVEL=info
+      - CORS_ORIGINS=http://localhost:5173,http://localhost:3000
+    volumes:
+      - codenomad-data:/app/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3100/health', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 10s
+
+  # CodeNomad v2 Web UI (optional - can also run separately with Vite)
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.v2-web
+    container_name: codenomad-web
+    ports:
+      - "3000:3000"
+    environment:
+      - VITE_API_BASE_URL=http://localhost:3100
+      - VITE_WS_URL=ws://localhost:3100
+    depends_on:
+      - server
+    restart: unless-stopped
+
+volumes:
+  codenomad-data:
+    driver: local
+
+networks:
+  default:
+    name: codenomad-network

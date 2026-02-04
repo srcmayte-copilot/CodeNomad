@@ -1,0 +1,37 @@
+# CodeNomad v2 Web UI
+FROM node:20-alpine AS base
+
+# Install dependencies
+FROM base AS deps
+WORKDIR /app
+
+COPY package.json package-lock.json ./
+COPY packages/v2-web/package.json ./packages/v2-web/
+
+RUN npm ci
+
+# Build stage
+FROM base AS builder
+WORKDIR /app
+
+COPY --from=deps /app/node_modules ./node_modules
+COPY --from=deps /app/packages/v2-web/node_modules ./packages/v2-web/node_modules
+
+COPY packages/v2-web ./packages/v2-web
+COPY package.json package-lock.json ./
+
+# Build the web application
+RUN cd packages/v2-web && npm run build
+
+# Production stage with nginx
+FROM nginx:alpine AS runner
+
+# Copy built files
+COPY --from=builder /app/packages/v2-web/dist /usr/share/nginx/html
+
+# Copy nginx config
+COPY packages/v2-web/nginx.conf /etc/nginx/conf.d/default.conf
+
+EXPOSE 3000
+
+CMD ["nginx", "-g", "daemon off;"]
